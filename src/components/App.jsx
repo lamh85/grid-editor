@@ -1,31 +1,25 @@
 import React, { Component } from "react"
 import { hot } from "react-hot-loader"
+import styled from 'styled-components'
+
+const Styles = styled.div`
+  background: red;
+  height: 200px;
+  width: 200px;
+`
 
 class App extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      style: {
-        height: "200px",
-        width: "200px",
-        background: "red"
-      },
-      maxValues: {
-        height: 500,
-        width: 500
-      },
-      dropdownValue: "background"
-    }
-
   }
 
   render() {
-
     return (
-      <div>
-        Hello world
-      </div>
+      <Styles>
+        <div>
+          Hello world
+        </div>
+      </Styles>
     )
   }
 }
