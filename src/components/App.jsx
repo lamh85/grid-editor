@@ -2,10 +2,21 @@ import React, { Component } from "react"
 import { hot } from "react-hot-loader"
 import styled from 'styled-components'
 
-const Styles = styled.div`
-  background: red;
-  height: ${props => (props.height + 200) + "px"};
-  width: 200px;
+const StylesOuter = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background: yellow;
+`
+
+const gridCssValue = length => {
+  const percentage = 100 / length + "%"
+  return (percentage + " ").repeat(length)
+}
+
+const StylesSandbox = styled.div`
+  display: grid;
+  grid-template-columns: ${props => gridCssValue(props.columnCount)};
+  grid-template-rows: ${props => gridCssValue(props.rowCount)};
 `
 
 class App extends Component {
@@ -13,10 +24,16 @@ class App extends Component {
     super(props)
     
     this.state = {
-      height: 0
+      height: 0,
+      columnCount: 1,
+      rowCount: 1
     }
     
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  addChildElement() {
+
   }
   
   handleClick() {
@@ -25,13 +42,9 @@ class App extends Component {
 
   render() {
     return (
-      <Styles height={this.state.height}>
-        <div>
-          Hello world
-        </div>
-        
-        <button onClick={this.handleClick}>Click me!</button>
-      </Styles>
+      <StylesOuter>        
+        <button onClick={this.handleClick}>Increase</button>
+      </StylesOuter>
     )
   }
 }
