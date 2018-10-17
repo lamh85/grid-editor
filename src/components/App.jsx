@@ -17,6 +17,12 @@ const StylesSandbox = styled.div`
   display: grid;
   grid-template-columns: ${props => gridCssValue(props.columnCount)};
   grid-template-rows: ${props => gridCssValue(props.rowCount)};
+  
+  .child {
+    border: 1px solid black;
+    height: 100px;
+    width: 100px
+  }
 `
 
 class App extends Component {
@@ -29,21 +35,54 @@ class App extends Component {
       rowCount: 1
     }
     
-    this.handleClick = this.handleClick.bind(this)
+    this.handleGridChange = this.handleGridChange.bind(this)
   }
 
-  addChildElement() {
+  handleGridChange(event) {
+    const {increment, axis} = event.target.dataset
+    
+    let stateName = "columnCount"
+    if (axis == "horizontal") {
+      stateName = "rowCount"
+    }
 
-  }
-  
-  handleClick() {
-    this.setState({height: this.state.height + 50})
+    const stateValue = this.state[stateName] + Number(increment)
+    
+    if (stateValue > 0) {
+      this.setState({[stateName]: stateValue})
+    }
   }
 
   render() {
+    const buttons = [
+      {content: "More rows!", increment: 1, axis: "horizontal"},
+      {content: "Fewer rows!", increment: -1, axis: "horizontal"},
+      {content: "More columns!", increment: 1, axis: "vertical"},
+      {content: "Fewer columns!", increment: -1, axis: "vertical"}
+    ]
+    
+    const {columnCount, rowCount} = this.state
+    
     return (
-      <StylesOuter>        
-        <button onClick={this.handleClick}>Increase</button>
+      <StylesOuter>
+        {
+          buttons.map((item, index) => {
+            return <button  data-increment={item.increment}
+                            data-axis={item.axis}
+                            key={index}
+                            onClick={this.handleGridChange} >
+              {item.content}
+            </button>
+          })
+        }
+        
+        <StylesSandbox columnCount={columnCount} rowCount={rowCount}>
+          {
+            Array(columnCount * rowCount).fill().map((item, index) => {
+              return <div key={index} className="child"></div>
+            })
+          }
+        </StylesSandbox>
       </StylesOuter>
     )
   }
